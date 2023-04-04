@@ -1,0 +1,221 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/26/2023 4:19:22 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="VEDANG-ROG"
+  DTS:CreatorName="VEDANG-ROG\Vedang Patel"
+  DTS:DTSID="{70DBDB22-4A71-4801-83A1-3FB22DAC34CB}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
+  DTS:LocaleID="4105"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{2E334E49-2FAF-4153-8939-66616806860F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CopiedData]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{ADB72C94-A634-4005-BB45-246377369B24}"
+      DTS:ObjectName="CopiedData">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="3"
+          DTS:ConnectionString="C:\Users\vedan\Desktop\CopiedData" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[people.csv]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{F6072175-6647-4A19-A649-1F1BCEF7C1C8}"
+      DTS:ObjectName="people.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Users\vedan\Documents\SQL Server\SSIS\Chapter 3\people.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[PeopleCopy.csv]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{86680E31-1A13-4EC2-BD4A-3FE17B2B062C}"
+      DTS:ObjectName="PeopleCopy.csv">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="1"
+          DTS:ConnectionString="C:\Users\vedan\Desktop\CopiedData\PeopleCopy.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create Folder"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{72710F66-39D1-4945-8886-A15D07F95A89}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create Folder"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="CreateDirectory"
+          TaskSourcePath="{ADB72C94-A634-4005-BB45-246377369B24}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\File System Task"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{DF5B154F-252A-432E-A81F-A4DC85DC39DA}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="File System Task"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="SetAttributes"
+          TaskSourcePath="{86680E31-1A13-4EC2-BD4A-3FE17B2B062C}"
+          TaskFileAttributes="ReadOnly" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Move CSV File"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{FB2EE878-0755-4D37-B576-D322E9314911}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Move CSV File"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskSourcePath="{F6072175-6647-4A19-A649-1F1BCEF7C1C8}"
+          TaskDestinationPath="{86680E31-1A13-4EC2-BD4A-3FE17B2B062C}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{578EDA41-4442-46CE-96B7-FEAEB16AE6C7}"
+      DTS:From="Package\Create Folder"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Move CSV File" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E9EF07C9-DDAE-45E6-AF27-8E295DA181A0}"
+      DTS:From="Package\Move CSV File"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\File System Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\Create Folder"
+          TopLeft="101.333329525259,64.4333338016934" />
+        <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\Move CSV File"
+          TopLeft="294.666656368309,173.300001095136" />
+        <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\File System Task"
+          TopLeft="386.666651301915,304.200002417564" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="180.533329525259,106.033333801693">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="193.33332684305,67.2666672934426"
+              Start="0,0"
+              End="193.33332684305,59.7666672934426">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.6333336467213" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.6333336467213"
+                    Point2="0,33.6333336467213"
+                    Point3="4,33.6333336467213" />
+                  <mssgle:LineSegment
+                    End="189.33332684305,33.6333336467213" />
+                  <mssgle:CubicBezierSegment
+                    Point1="189.33332684305,33.6333336467213"
+                    Point2="193.33332684305,33.6333336467213"
+                    Point3="193.33332684305,37.6333336467213" />
+                  <mssgle:LineSegment
+                    End="193.33332684305,59.7666672934426" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="373.866656368309,214.900001095136">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="91.9999949336056,89.3000013224284"
+              Start="0,0"
+              End="91.9999949336056,81.8000013224284">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.6500006612142" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.6500006612142"
+                    Point2="0,44.6500006612142"
+                    Point3="4,44.6500006612142" />
+                  <mssgle:LineSegment
+                    End="87.9999949336056,44.6500006612142" />
+                  <mssgle:CubicBezierSegment
+                    Point1="87.9999949336056,44.6500006612142"
+                    Point2="91.9999949336056,44.6500006612142"
+                    Point3="91.9999949336056,48.6500006612142" />
+                  <mssgle:LineSegment
+                    End="91.9999949336056,81.8000013224284" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
